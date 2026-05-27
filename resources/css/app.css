@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* Custom scrollbar styling for a modern look */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+body {
+    background-color: #F8FAFC;
+}
+
+@layer components {
+    .btn-primary {
+        @apply bg-gradient-to-r from-primary to-indigo-600 text-white font-semibold py-2.5 px-5 rounded-xl shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 text-sm cursor-pointer;
+    }
+
+    .btn-ghost {
+        @apply bg-slate-100 text-slate-600 hover:bg-slate-200/80 font-semibold py-2.5 px-5 rounded-xl transition-all duration-200 text-sm cursor-pointer;
+    }
+
+    .btn-success {
+        @apply bg-gradient-to-r from-success to-emerald-600 text-white font-semibold py-2.5 px-5 rounded-xl shadow-md shadow-success/10 hover:shadow-lg hover:shadow-success/20 hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 text-sm cursor-pointer;
+    }
+
+    .form-input {
+        @apply w-full h-[44px] px-3.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all duration-200 bg-white/80 shadow-sm;
+    }
+
+    .form-select {
+        @apply w-full h-[44px] px-3.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all duration-200 bg-white/80 shadow-sm;
+    }
+
+    .form-label {
+        @apply block text-slate-500 text-[10px] font-bold mb-1.5 tracking-wider uppercase;
+    }
+
+    .card {
+        @apply bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_8px_30px_rgb(0_0_0_/_0.015)] hover:shadow-[0_12px_40px_rgb(0_0_0_/_0.03)] hover:border-slate-200/60 transition-all duration-300;
+    }
+
+    .stat-card {
+        @apply bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_8px_30px_rgb(0_0_0_/_0.015)] flex flex-col gap-2 hover:shadow-[0_12px_40px_rgb(0_0_0_/_0.035)] transition-all duration-300 hover:-translate-y-0.5;
+    }
+
+    .modal-overlay {
+        @apply fixed inset-0 bg-slate-950/45 backdrop-blur-[6px] flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 ease-out;
+    }
+
+    .modal-overlay.active {
+        @apply opacity-100 pointer-events-auto;
+    }
+
+    .modal-content {
+        @apply bg-white w-full max-w-lg rounded-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 ease-out overflow-hidden border border-slate-100;
+    }
+
+    .modal-overlay.active .modal-content {
+        @apply scale-100 opacity-100;
+    }
+
+    .sidebar-link {
+        @apply flex items-center gap-3.5 px-4 py-3 mx-2 text-slate-400 hover:text-white rounded-xl transition-all duration-200 text-[13px] font-medium border-l-[3.5px] border-transparent hover:bg-slate-900/50 hover:translate-x-1;
+    }
+
+    .sidebar-link.active {
+        @apply text-white bg-primary/10 border-primary border-l-[3.5px] font-semibold translate-x-1;
+    }
+
+    .data-table {
+        @apply w-full text-left border-collapse;
+    }
+
+    .data-table th {
+        @apply text-[10px] font-extrabold text-slate-400 tracking-wider py-4 px-4 border-b border-slate-100 uppercase bg-slate-50/40;
+    }
+
+    .data-table td {
+        @apply py-4 px-4 text-sm text-slate-800 border-b border-slate-100/60;
+    }
+
+    .data-table tbody tr {
+        @apply transition-colors duration-150;
+    }
+
+    .data-table tbody tr:hover {
+        @apply bg-slate-50/40;
+    }
+
+    .badge-success {
+        @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-600 text-[10px] font-bold rounded-full border border-emerald-500/20;
+    }
+
+    .badge-warning {
+        @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-500/10 text-amber-600 text-[10px] font-bold rounded-full border border-amber-500/20;
+    }
+
+    .badge-danger {
+        @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-rose-500/10 text-rose-600 text-[10px] font-bold rounded-full border border-rose-500/20;
+    }
+}
+
+/* Premium Dark Mode Styling Overrides */
+.dark body {
+    background-color: #090D16 !important;
+    color: #F8FAFC !important;
+}
+
+.dark .card {
+    background-color: rgba(15, 23, 42, 0.8) !important;
+    border-color: rgba(51, 65, 85, 0.5) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7) !important;
+}
+
+.dark .stat-card {
+    background-color: rgba(15, 23, 42, 0.8) !important;
+    border-color: rgba(51, 65, 85, 0.5) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7) !important;
+}
+
+.dark .form-input,
+.dark .form-select {
+    background-color: #0F172A !important;
+    border-color: #334155 !important;
+    color: #F8FAFC !important;
+}
+
+.dark .form-input::placeholder {
+    color: #64748B !important;
+}
+
+.dark .form-label {
+    color: #94A3B8 !important;
+}
+
+.dark .data-table th {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+    border-color: rgba(51, 65, 85, 0.5) !important;
+    color: #94A3B8 !important;
+}
+
+.dark .data-table td {
+    border-color: rgba(51, 65, 85, 0.3) !important;
+    color: #CBD5E1 !important;
+}
+
+.dark .data-table tbody tr:hover {
+    background-color: rgba(30, 41, 59, 0.4) !important;
+}
+
+.dark .modal-content {
+    background-color: #0F172A !important;
+    border-color: #1E293B !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Text and element base color overrides for seamless compatibility */
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark .text-gray-800 {
+    color: #F8FAFC !important;
+}
+
+.dark .text-slate-700 {
+    color: #E2E8F0 !important;
+}
+
+.dark .text-slate-600 {
+    color: #CBD5E1 !important;
+}
+
+.dark .text-slate-500 {
+    color: #94A3B8 !important;
+}
+
+.dark .text-slate-400 {
+    color: #64748B !important;
+}
+
+.dark .bg-white {
+    background-color: #0F172A !important;
+}
+
+.dark .bg-white\/70 {
+    background-color: rgba(15, 23, 42, 0.7) !important;
+}
+
+.dark .border-slate-100 {
+    border-color: rgba(51, 65, 85, 0.4) !important;
+}
+
+.dark .border-slate-200\/60 {
+    border-color: rgba(51, 65, 85, 0.5) !important;
+}
+
+.dark .bg-slate-50\/40 {
+    background-color: rgba(15, 23, 42, 0.4) !important;
+}
+
+.dark .bg-slate-100 {
+    background-color: #1E293B !important;
+    color: #CBD5E1 !important;
+}
+
+.dark .bg-slate-50 {
+    background-color: #1E293B !important;
+    color: #CBD5E1 !important;
+    border-color: #334155 !important;
+}
+
+.dark .bg-indigo-50 {
+    background-color: rgba(99, 102, 241, 0.15) !important;
+    color: #818CF8 !important;
+    border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* Ambient glow adjustment for dark theme */
+.dark .bg-primary\/5 {
+    background-color: rgba(99, 102, 241, 0.08) !important;
+}

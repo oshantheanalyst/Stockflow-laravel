@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('category')->default('');
-            $table->text('description')->default('');
+            $table->text('description')->nullable();
             $table->decimal('amount', 12, 2)->default(0);
             $table->timestamps();
         });

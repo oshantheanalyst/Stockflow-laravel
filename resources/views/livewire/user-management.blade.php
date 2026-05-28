@@ -41,7 +41,7 @@
                     @php
                         $isSelf = auth()->id() === $u->id;
                     @endphp
-                    <tr>
+                    <tr wire:key="user-{{ $u->id }}-{{ $u->is_active ? 'active' : 'inactive' }}">
                         <td class="font-medium text-slate-800">
                             {{ $u->username }}
                             @if($isSelf)

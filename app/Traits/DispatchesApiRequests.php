@@ -30,7 +30,7 @@ trait DispatchesApiRequests
             ? json_encode($data)
             : null;
 
-        $parameters = in_array(strtoupper($method), ['POST', 'PUT', 'PATCH', 'DELETE'], true) ? $data : [];
+        $parameters = [];
 
         $request = Request::create($uri, $method, $parameters, request()->cookies->all(), [], $server, $content);
         $response = app('router')->dispatch($request);

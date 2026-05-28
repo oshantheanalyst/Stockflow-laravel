@@ -98,7 +98,7 @@
     <div class="err-box">@foreach($errors->all() as $e)<p>{{ $e }}</p>@endforeach</div>
     @endif
 
-    <form method="POST" action="{{ route('password.forgot') }}">
+    <form method="POST" action="{{ route('password.email') }}">
         @csrf
         <div class="field">
             <label>Username or Email Address</label>

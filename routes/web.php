@@ -30,7 +30,7 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 Route::get('/forgot-password', function () {
-    return view('auth.login');
+    return view('auth.forgot-password');
 })->name('password.request');
 
 // Override POST login and logout on the web side to force strict API-driven auth

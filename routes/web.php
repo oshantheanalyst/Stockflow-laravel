@@ -72,7 +72,7 @@ Route::middleware(['web', 'api.auth', \App\Http\Middleware\EnsureApiActive::clas
         // Serve the full Jetstream/Livewire-based account area which
         // includes two-factor, active sessions, and account deletion.
         return view('profile.show');
-    })->name('profile.show');
+    })->name('app.profile.show');
 
     // Explicitly override the Livewire update route here inside the API-auth group
     // so that it receives the EnsureApiAuthenticated middleware reliably, preventing

@@ -33,6 +33,20 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->name('password.request');
 
+$limiter = config('fortify.limiters.login');
+
+Route::post('/forgot-password', [\Laravel\Fortify\Http\Controllers\PasswordResetLinkController::class, 'store'])
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [\Laravel\Fortify\Http\Controllers\NewPasswordController::class, 'create'])
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('password.reset');
+
+Route::post('/reset-password', [\Laravel\Fortify\Http\Controllers\NewPasswordController::class, 'store'])
+    ->middleware(['guest:'.config('fortify.guard')])
+    ->name('password.update');
+
 // Override POST login and logout on the web side to force strict API-driven auth
 Route::post('/login', function () {
     abort(404, 'Direct web login is disabled. Please authenticate via API.');

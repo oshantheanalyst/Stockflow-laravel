@@ -8,6 +8,8 @@ class Product extends Model
 {
     use \App\Traits\BelongsToTenant;
 
+    protected $appends = ['photo_url'];
+
     protected $fillable = [
         'product_code',
         'name',

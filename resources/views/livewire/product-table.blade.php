@@ -110,7 +110,7 @@
                     @php
                         $isLow = $p->current_stock <= $p->reorder_level;
                     @endphp
-                    <tr>
+                    <tr wire:key="product-{{ $p->id }}-{{ $p->is_active ? '1' : '0' }}-{{ $p->photo_url ? md5($p->photo_url) : 'nophoto' }}-{{ $p->current_stock }}">
                         <td>
                             @if(!empty($p->photo_url))
                                 <img src="{{ $p->photo_url }}" alt="{{ $p->name }}" class="w-10 h-10 rounded-lg object-cover border border-slate-100 shadow-sm" />
@@ -268,7 +268,7 @@
                                     <div class="flex flex-col items-center gap-1 text-slate-400 group-hover:text-primary transition-colors">
                                         <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
                                         <span class="text-xs font-medium">Click to upload image</span>
-                                        <span class="text-[10px]">PNG, JPG, WEBP up to 2 MB</span>
+                                        <span class="text-[10px]">PNG, JPG, WEBP up to 10 MB</span>
                                     </div>
                                 </template>
                             </label>
@@ -279,14 +279,18 @@
                 </div>
                 
                 <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end gap-3">
-                    <button type="button" onclick="closeModal('addProductModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors">
+                    <button type="button" onclick="closeModal('addProductModal')" class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200">
                         Cancel
                     </button>
-                    <button type="submit" class="btn-primary" wire:loading.attr="disabled">
-                        <span wire:loading.remove wire:target="saveProduct">Save Item</span>
+                    <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="saveProduct, newProductPhoto">
+                        <span wire:loading.remove wire:target="saveProduct">Add Product</span>
                         <span wire:loading wire:target="saveProduct" class="flex items-center gap-2">
-                            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Saving...
+                        </span>
+                        <span wire:loading wire:target="newProductPhoto" class="flex items-center gap-2">
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Uploading Photo...
                         </span>
                     </button>
                 </div>
@@ -310,6 +314,16 @@
                     @if(session()->has('error'))
                         <div class="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
                             {{ session('error') }}
+                        </div>
+                    @endif
+                    
+                    @if ($errors->any())
+                        <div class="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
 
@@ -389,7 +403,7 @@
                                     <div class="flex flex-col items-center gap-1 text-slate-400 group-hover:text-primary transition-colors">
                                         <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
                                         <span class="text-xs font-medium">{{ $editProductPhotoUrl ? 'Upload to replace' : 'Click to upload image' }}</span>
-                                        <span class="text-[10px]">PNG, JPG, WEBP up to 2 MB</span>
+                                        <span class="text-[10px]">PNG, JPG, WEBP up to 10 MB</span>
                                     </div>
                                 </template>
                             </label>
@@ -400,14 +414,18 @@
                 </div>
                 
                 <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end gap-3">
-                    <button type="button" onclick="closeModal('editProductModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors">
+                    <button type="button" onclick="closeModal('editProductModal')" class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200">
                         Cancel
                     </button>
-                    <button type="submit" class="btn-primary" wire:loading.attr="disabled">
-                        <span wire:loading.remove wire:target="updateProduct">Update Item</span>
+                    <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="updateProduct, editProductPhoto">
+                        <span wire:loading.remove wire:target="updateProduct, editProductPhoto">Update Item</span>
                         <span wire:loading wire:target="updateProduct" class="flex items-center gap-2">
-                            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Updating...
+                        </span>
+                        <span wire:loading wire:target="editProductPhoto" class="flex items-center gap-2">
+                            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Uploading Photo...
                         </span>
                     </button>
                 </div>

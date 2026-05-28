@@ -33,7 +33,17 @@ trait DispatchesApiRequests
         $parameters = [];
 
         $request = Request::create($uri, $method, $parameters, request()->cookies->all(), [], $server, $content);
-        $response = app('router')->dispatch($request);
+
+        // Temporarily bind the simulated request to the container so that Dependency Injection gets the correct request
+        $originalRequest = app('request');
+        app()->instance('request', $request);
+
+        try {
+            $response = app('router')->dispatch($request);
+        } finally {
+            // Always restore the original request
+            app()->instance('request', $originalRequest);
+        }
 
         $payload = null;
         $body = $response->getContent();

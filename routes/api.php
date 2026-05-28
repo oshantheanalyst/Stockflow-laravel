@@ -115,7 +115,7 @@ Route::post('/auth/register', function (Request $request) {
 
 Route::middleware(['auth:sanctum', 'active.user'])->name('api.')->group(function () {
 
-Route::post('/auth/logout', function (Request $request) {
+    Route::post('/auth/logout', function (Request $request) {
         $token = $request->user()->currentAccessToken();
         if ($token && method_exists($token, 'delete')) {
             \App\Models\SessionHistory::where('token_id', $token->id)

@@ -103,6 +103,9 @@ class UserController extends Controller
             $validated['password'] = Hash::make($validated['password']);
         }
 
+        \Log::info('Request Hash: ' . spl_object_hash($request));
+        \Log::info('Request all: ' . json_encode($request->all()));
+        \Log::info('Validated array: ' . json_encode($validated));
         $user->update($validated);
 
         if (isset($validated['is_active']) && !$validated['is_active']) {

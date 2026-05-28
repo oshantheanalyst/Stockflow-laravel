@@ -115,14 +115,14 @@ class ProductTable extends Component
             'newProductName'          => 'required|string|max:255',
             'newProductBuyingPrice'   => 'required|numeric|min:0',
             'newProductSellingPrice'  => 'required|numeric|min:0',
-            'newProductPhoto'         => 'nullable|image|max:2048', // max 2 MB
+            'newProductPhoto'         => 'nullable|image|max:10240', // max 10 MB
         ], [
             'newProductCode.required'         => 'The product code field is required.',
             'newProductName.required'         => 'The item name field is required.',
             'newProductBuyingPrice.required'  => 'The buy price field is required.',
             'newProductSellingPrice.required' => 'The sell price field is required.',
             'newProductPhoto.image'           => 'The photo must be an image file.',
-            'newProductPhoto.max'             => 'The photo may not be larger than 2 MB.',
+            'newProductPhoto.max'             => 'The photo may not be larger than 10 MB.',
         ]);
 
         try {
@@ -197,14 +197,14 @@ class ProductTable extends Component
             'editProductName'         => 'required|string|max:255',
             'editProductBuyingPrice'  => 'required|numeric|min:0',
             'editProductSellingPrice' => 'required|numeric|min:0',
-            'editProductPhoto'        => 'nullable|image|max:2048',
+            'editProductPhoto'        => 'nullable|image|max:10240',
         ], [
             'editProductCode.required'         => 'The product code field is required.',
             'editProductName.required'         => 'The item name field is required.',
             'editProductBuyingPrice.required'  => 'The buy price field is required.',
             'editProductSellingPrice.required' => 'The sell price field is required.',
             'editProductPhoto.image'           => 'The photo must be an image file.',
-            'editProductPhoto.max'             => 'The photo may not be larger than 2 MB.',
+            'editProductPhoto.max'             => 'The photo may not be larger than 10 MB.',
         ]);
 
         try {

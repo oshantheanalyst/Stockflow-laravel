@@ -39,11 +39,7 @@ class Customer extends Model
         return $this->hasManyThrough(InvoiceItem::class, Invoice::class);
     }
 
-    // All invoice returns across all invoices for this customer.
-    public function invoiceReturns()
-    {
-        return $this->hasManyThrough(InvoiceReturn::class, Invoice::class);
-    }
+
 
     // ── Scopes ────────────────────────────────────────────
 

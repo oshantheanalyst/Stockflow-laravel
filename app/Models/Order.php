@@ -103,17 +103,7 @@ class Order extends Model
                     ->withTimestamps();
     }
 
-    // Returns filed against this order.
-    public function returns()
-    {
-        return $this->hasMany(InvoiceReturn::class, 'invoice_id');
-    }
 
-    // All return line-items across all returns for this order.
-    public function returnItems()
-    {
-        return $this->hasManyThrough(InvoiceReturnItem::class, InvoiceReturn::class, 'invoice_id', 'invoice_return_id');
-    }
 
     // ── Scopes ────────────────────────────────────────────
 

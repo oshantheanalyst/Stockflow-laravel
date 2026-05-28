@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\InvoiceReturn;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -33,10 +33,7 @@ class ReportController extends Controller
             ->whereHas('invoice', fn ($q) => $q->where('is_deleted', false)->where('invoice_date', '>=', $from)->where('invoice_date', '<', $to))
             ->get();
 
-        $returns = InvoiceReturn::with(['items', 'invoice'])
-            ->whereHas('invoice', fn ($q) => $q->where('is_deleted', false)->where('invoice_date', '>=', $from)->where('invoice_date', '<', $to))
-            ->get();
-        $returnItems = $returns->flatMap->items;
+
         $totalCogs = $items->sum(fn ($ii) => $ii->qty * $ii->buying_price_snapshot);
 
         $productStats = [];
@@ -50,22 +47,6 @@ class ReportController extends Controller
         }
 
         $returnedCogs = 0;
-        foreach ($returnItems->groupBy('product_id') as $pid => $rg) {
-            if (isset($productStats[$pid])) {
-                $s = $productStats[$pid];
-                $qd = (int) $rg->sum('qty_returned');
-                $rd = $rg->sum('line_total');
-                $ac = $s['qty_sold'] > 0 ? $s['cogs'] / $s['qty_sold'] : 0;
-                $cd = $qd * $ac;
-                $returnedCogs += $cd;
-                $productStats[$pid] = [
-                    'name' => $s['name'],
-                    'qty_sold' => $s['qty_sold'] - $qd,
-                    'revenue' => $s['revenue'] - $rd,
-                    'cogs' => $s['cogs'] - $cd,
-                ];
-            }
-        }
 
         $netProfit = $totalSales - ($totalCogs - $returnedCogs) - $totalExpenses;
         $topProducts = collect($productStats)

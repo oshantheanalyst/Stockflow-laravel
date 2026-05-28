@@ -47,9 +47,7 @@ return new class extends Migration
         Schema::table('invoice_items', function (Blueprint $table) {
             $table->dropForeign(['invoice_id']);
         });
-        Schema::table('invoice_returns', function (Blueprint $table) {
-            $table->dropForeign(['invoice_id']);
-        });
+
 
         // 4. Rename invoices to orders
         Schema::rename('invoices', 'orders');
@@ -85,10 +83,7 @@ return new class extends Migration
             $table->foreign('order_id')->references('id')->on('orders')->cascadeOnDelete();
         });
 
-        // 8. Restore foreign key on invoice_returns
-        Schema::table('invoice_returns', function (Blueprint $table) {
-            $table->foreign('invoice_id')->references('id')->on('orders')->restrictOnDelete();
-        });
+
     }
 
     // Reverse the migrations.
@@ -98,9 +93,7 @@ return new class extends Migration
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropForeign(['order_id']);
         });
-        Schema::table('invoice_returns', function (Blueprint $table) {
-            $table->dropForeign(['invoice_id']);
-        });
+
 
         // Rename order_items back to invoice_items
         Schema::table('order_items', function (Blueprint $table) {
@@ -120,9 +113,7 @@ return new class extends Migration
         Schema::table('invoice_items', function (Blueprint $table) {
             $table->foreign('invoice_id')->references('id')->on('invoices')->cascadeOnDelete();
         });
-        Schema::table('invoice_returns', function (Blueprint $table) {
-            $table->foreign('invoice_id')->references('id')->on('invoices')->restrictOnDelete();
-        });
+
 
         // Remove categories and new product fields
         Schema::table('products', function (Blueprint $table) {

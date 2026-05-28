@@ -94,11 +94,7 @@ class Product extends Model
                     ->withTimestamps();
     }
 
-    // Return line-items for this product.
-    public function invoiceReturnItems()
-    {
-        return $this->hasMany(InvoiceReturnItem::class);
-    }
+
 
     // Stock movement records for this product.
     public function stockMovements()

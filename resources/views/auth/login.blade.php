@@ -201,7 +201,10 @@
             </div>
 
             <div class="field">
-                <label for="password">Password</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label for="password" style="margin-bottom: 0;">Password</label>
+                    <a href="#" id="forgotPasswordLink" style="font-size: 12px; font-weight: 600; color: #2563EB; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1D4ED8'" onmouseout="this.style.color='#2563EB'">Forgot password?</a>
+                </div>
                 <div class="input-wrap">
                     <input type="password" id="password" name="password" autocomplete="current-password" placeholder="••••••••" required />
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -304,6 +307,12 @@
         if (signUpLink) {
             const basePath = window.location.pathname.replace(/\/login\/?$/, '');
             signUpLink.href = window.location.origin + basePath + '/register';
+        }
+
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        if (forgotPasswordLink) {
+            const basePath = window.location.pathname.replace(/\/login\/?$/, '');
+            forgotPasswordLink.href = window.location.origin + basePath + '/forgot-password';
         }
 
         function showError(msg) {
